@@ -1,0 +1,77 @@
+---
+import { Image } from "astro:assets";
+import Layout from "../layouts/Layout.astro";
+import heroEmblem from "../assets/hero-emblem.png";
+import PostCard from "../components/PostCard.astro";
+import { site } from "../data/site";
+import { getPosts } from "../lib/sanity";
+
+const posts = await getPosts();
+const [featured, ...rest] = posts;
+const recent = rest.slice(0, 6);
+---
+
+<Layout title={`${site.name} — A Christian Blog`} description={site.description}>
+  <section class="relative overflow-hidden bg-gradient-to-b from-white via-white to-mauve-light">
+    <div class="relative mx-auto flex max-w-3xl flex-col items-center px-4 pb-16 pt-10 text-center sm:pb-20">
+      <h1 data-copy="H1">
+        <Image
+          src={heroEmblem}
+          widths={[340, 400, 680, 800]}
+          sizes="(min-width: 640px) 400px, 80vw"
+          alt={`${site.name} — ${site.tagline}`}
+          loading="eager"
+          class="h-auto w-full max-w-[400px]"
+        />
+      </h1>
+      <p data-copy="H2" class="mt-6 max-w-2xl text-lg text-ink/75">
+        {/* TODO: short welcome in the author's own words */}
+        Welcome, friend. Stories of faith, struggle, and everyday grace — and what it looks like to
+        live present with God, right where we are.
+      </p>
+      <div data-copy="H3" class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/about" class="rounded-md bg-mauve px-6 py-3 font-semibold text-white transition hover:bg-mauve-dark">Read My Story</a>
+        <a href="/blog" class="rounded-md border border-ink/20 bg-white px-6 py-3 font-semibold text-ink transition hover:border-mauve hover:text-mauve">Latest Posts</a>
+      </div>
+    </div>
+  </section>
+
+  {
+    featured ? (
+      <>
+        <section class="mx-auto max-w-5xl px-4 pt-16">
+          <h2 data-copy="H4" class="text-3xl font-semibold">Latest Post</h2>
+          <div class="mt-8">
+            <PostCard post={featured} featured />
+          </div>
+        </section>
+        {recent.length > 0 && (
+          <section class="mx-auto max-w-5xl px-4 pt-16">
+            <div data-copy="H5" class="flex items-baseline justify-between">
+              <h2 class="text-3xl font-semibold">More Reflections</h2>
+              <a href="/blog" class="font-medium text-mauve hover:text-mauve-dark">All posts →</a>
+            </div>
+            <div class="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {recent.map((post) => <PostCard post={post} />)}
+            </div>
+          </section>
+        )}
+      </>
+    ) : (
+      <section class="mx-auto max-w-5xl px-4 pt-16 text-center">
+        <h2 class="text-3xl font-semibold">Posts are coming soon</h2>
+        <p class="mt-3 text-ink/70">The first stories are being written. Check back shortly.</p>
+      </section>
+    )
+  }
+
+  <section class="mx-auto mt-16 max-w-5xl px-4">
+    <div data-copy="H6" class="rounded-2xl bg-ink px-8 py-12 text-center text-white sm:px-16">
+      <h2 class="text-3xl font-semibold">I'd love to hear from you</h2>
+      <p class="mx-auto mt-3 max-w-xl text-white/75">
+        Have a prayer request, or did something here speak to you? Send a note anytime.
+      </p>
+      <a href="/contact" class="mt-6 inline-block rounded-md bg-sunshine px-6 py-3 font-semibold text-ink transition hover:brightness-95">Get in Touch</a>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,7 @@
+---
+import Verse from "../Verse.astro";
+
+const { node } = Astro.props as { node: { text: string; reference: string } };
+---
+
+<Verse text={node.text} reference={node.reference} />

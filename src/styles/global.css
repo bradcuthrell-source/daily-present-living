@@ -1,0 +1,47 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Palette pulled from the logo: the wine-mauve brushstroke ring, the black
+   wordmark, and the peach-gold sunburst. */
+@theme {
+  --color-mauve: #8c4560;
+  --color-mauve-dark: #6b3048;
+  --color-mauve-light: #f7eef1;
+  --color-sunshine: #f2a548;
+  --color-sunshine-light: #fdf1e1;
+  --color-ink: #1b1a1c;
+  --font-serif: "Lora", ui-serif, Georgia, serif;
+  --font-display: "Playfair Display", ui-serif, Georgia, serif;
+}
+
+body {
+  font-family: var(--font-serif);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+}
+
+/* Copy-review mode: visit any page with ?review to show numbered tags on each
+   section the author is asked to weigh in on (data-copy="H1" etc.). Remove the
+   data-copy attributes and this block once copy is final. */
+html.copy-review [data-copy] {
+  position: relative;
+  outline: 2px dashed var(--color-sunshine);
+  outline-offset: 6px;
+}
+html.copy-review [data-copy]::before {
+  content: attr(data-copy);
+  position: absolute;
+  top: -14px;
+  left: -14px;
+  z-index: 40;
+  border-radius: 9999px;
+  background: var(--color-sunshine);
+  padding: 2px 10px;
+  font: 700 14px/1.4 ui-sans-serif, system-ui, sans-serif;
+  color: var(--color-ink);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
+}

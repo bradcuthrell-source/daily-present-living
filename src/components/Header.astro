@@ -1,0 +1,84 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/logo/logo-horizontal.png";
+import { site, navLinks } from "../data/site";
+
+const current = Astro.url.pathname.replace(/\.html$/, "").replace(/\/$/, "") || "/";
+const isActive = (href: string) =>
+  href === "/" ? current === "/" || current === "/index" : current.startsWith(href);
+---
+
+<header class="sticky top-0 z-50 border-b border-mauve/15 bg-white/95 backdrop-blur">
+  <div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-2">
+    <a href="/" class="shrink-0">
+      <Image
+        src={logo}
+        widths={[240, 480, 720]}
+        sizes="(min-width: 640px) 240px, 180px"
+        alt={site.name}
+        loading="eager"
+        class="h-auto w-[180px] sm:w-[240px]"
+      />
+    </a>
+
+    <nav class="hidden items-center gap-8 md:flex" aria-label="Main">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            aria-current={isActive(link.href) ? "page" : undefined}
+            class:list={[
+              "font-medium transition hover:text-mauve",
+              isActive(link.href) ? "text-mauve" : "text-ink",
+            ]}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <button
+      type="button"
+      id="menu-toggle"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      class="inline-flex items-center justify-center rounded-md border border-ink/15 p-2 md:hidden"
+    >
+      <svg id="menu-icon-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+      <svg id="menu-icon-close" class="hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18"></path>
+      </svg>
+    </button>
+  </div>
+
+  <nav id="mobile-nav" class="hidden border-t border-mauve/15 md:hidden" aria-label="Mobile">
+    <div class="mx-auto flex max-w-5xl flex-col px-4 py-2">
+      {
+        navLinks.map((link) => (
+          <a href={link.href} class="py-3 font-medium text-ink hover:text-mauve">
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById("menu-toggle");
+  const nav = document.getElementById("mobile-nav");
+  const openIcon = document.getElementById("menu-icon-open");
+  const closeIcon = document.getElementById("menu-icon-close");
+  toggle?.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!open));
+    toggle.setAttribute("aria-label", open ? "Open menu" : "Close menu");
+    nav?.classList.toggle("hidden", open);
+    openIcon?.classList.toggle("hidden", !open);
+    closeIcon?.classList.toggle("hidden", open);
+  });
+</script>

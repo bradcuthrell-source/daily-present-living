@@ -1,0 +1,18 @@
+---
+// Renders an image the author dropped into the body of a post in the Studio.
+import { imageUrl, type SanityImage } from "../../lib/sanity";
+
+const { node } = Astro.props as { node: SanityImage };
+const src = imageUrl(node, 1200);
+---
+
+{
+  src && (
+    <figure class="not-prose my-8">
+      <img src={src} alt={node.alt ?? ""} loading="lazy" class="w-full rounded-lg" />
+      {node.caption && (
+        <figcaption class="mt-2 text-center text-sm italic text-ink/60">{node.caption}</figcaption>
+      )}
+    </figure>
+  )
+}

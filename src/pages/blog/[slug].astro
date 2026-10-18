@@ -1,0 +1,88 @@
+---
+import type { GetStaticPaths } from "astro";
+import Layout from "../../layouts/Layout.astro";
+import RichText from "../../components/RichText.astro";
+import Verse from "../../components/Verse.astro";
+import { site } from "../../data/site";
+import { formatDate, getPostsWithBody, imageUrl, type Post } from "../../lib/sanity";
+
+export const getStaticPaths = (async () => {
+  const posts = await getPostsWithBody();
+  // Posts are newest-first, so the neighbor at i+1 is the older post.
+  return posts.map((post, i) => ({
+    params: { slug: post.slug },
+    props: { post, newer: posts[i - 1], older: posts[i + 1] },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  post: Post;
+  newer?: Post;
+  older?: Post;
+}
+
+const { post, newer, older } = Astro.props;
+const hero = imageUrl(post.mainImage, 1600, 900);
+const ogImage = imageUrl(post.mainImage, 1200, 630) || undefined;
+const description = post.excerpt ?? `${post.title} — ${site.name}`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.title,
+  datePublished: post.publishedAt,
+  description,
+  author: { "@type": "Person", name: site.authorName },
+  ...(ogImage ? { image: ogImage } : {}),
+  mainEntityOfPage: new URL(`/blog/${post.slug}`, site.url).toString(),
+};
+---
+
+<Layout title={`${post.title} | ${site.name}`} description={description} ogImage={ogImage} ogType="article" jsonLd={jsonLd}>
+  <article>
+    <header class="mx-auto max-w-3xl px-4 pt-14 text-center">
+      <p class="text-sm uppercase tracking-widest text-mauve-dark">
+        <time datetime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
+        {post.categories?.length ? <span> · {post.categories.join(", ")}</span> : null}
+      </p>
+      <h1 class="mt-4 text-4xl font-semibold leading-tight sm:text-5xl">{post.title}</h1>
+      {post.excerpt && <p class="mt-5 text-xl italic text-ink/70">{post.excerpt}</p>}
+    </header>
+
+    {
+      hero && (
+        <div class="mx-auto mt-10 max-w-5xl px-4">
+          <img src={hero} alt={post.mainImage?.alt ?? ""} width="1600" height="900" class="w-full rounded-xl" />
+        </div>
+      )
+    }
+
+    <div class="mx-auto mt-10 max-w-3xl px-4">
+      {post.verse?.text && <Verse text={post.verse.text} reference={post.verse.reference} />}
+      <RichText value={post.body ?? []} />
+    </div>
+  </article>
+
+  <nav class="mx-auto mt-16 grid max-w-3xl gap-4 border-t border-mauve/15 px-4 pt-8 sm:grid-cols-2" aria-label="More posts">
+    <div>
+      {
+        older && (
+          <a href={`/blog/${older.slug}`} class="group block">
+            <span class="text-sm text-ink/60">← Previous</span>
+            <span class="block font-display text-lg font-semibold group-hover:text-mauve">{older.title}</span>
+          </a>
+        )
+      }
+    </div>
+    <div class="sm:text-right">
+      {
+        newer && (
+          <a href={`/blog/${newer.slug}`} class="group block">
+            <span class="text-sm text-ink/60">Next →</span>
+            <span class="block font-display text-lg font-semibold group-hover:text-mauve">{newer.title}</span>
+          </a>
+        )
+      }
+    </div>
+  </nav>
+</Layout>

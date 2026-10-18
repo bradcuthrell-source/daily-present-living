@@ -1,0 +1,13 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { site } from "../data/site";
+---
+
+<Layout title={`Thank You | ${site.name}`} description="Thanks for reaching out." noindex>
+  <section data-copy="C4" class="mx-auto max-w-2xl px-4 py-24 text-center">
+    <span class="mx-auto block h-4 w-4 rounded-full bg-sunshine ring-8 ring-sunshine-light" aria-hidden="true"></span>
+    <h1 class="mt-8 text-4xl font-semibold">Thank you for writing</h1>
+    <p class="mt-4 text-lg text-ink/75">Your message is on its way. I read every note and will be in touch soon.</p>
+    <a href="/blog" class="mt-8 inline-block rounded-md bg-mauve px-6 py-3 font-semibold text-white hover:bg-mauve-dark">Back to the Blog</a>
+  </section>
+</Layout>

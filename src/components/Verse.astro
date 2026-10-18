@@ -1,0 +1,17 @@
+---
+// A highlighted scripture passage. Used for a post's featured verse and for
+// "Scripture" blocks the author inserts into the body in the Studio.
+interface Props {
+  text: string;
+  reference: string;
+}
+
+const { text, reference } = Astro.props;
+---
+
+<figure class="not-prose my-8 rounded-lg border-l-4 border-sunshine bg-sunshine-light px-6 py-5">
+  <blockquote class="font-serif text-lg italic leading-relaxed text-ink">{text}</blockquote>
+  <figcaption class="mt-3 text-sm font-semibold uppercase tracking-wide text-mauve-dark">
+    {reference}
+  </figcaption>
+</figure>

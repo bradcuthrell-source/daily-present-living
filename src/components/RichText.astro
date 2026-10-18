@@ -1,0 +1,29 @@
+---
+// Portable Text (Sanity rich text) → HTML, styled with Tailwind Typography.
+import { PortableText } from "astro-portabletext";
+import ImageBlock from "./portable/ImageBlock.astro";
+import VerseBlock from "./portable/VerseBlock.astro";
+
+interface Props {
+  value: any[];
+  class?: string;
+}
+
+const { value, class: className } = Astro.props;
+
+const components = {
+  type: {
+    image: ImageBlock,
+    verse: VerseBlock,
+  },
+};
+---
+
+<div
+  class:list={[
+    "prose prose-lg max-w-none prose-headings:font-display prose-headings:text-ink prose-a:text-mauve prose-a:decoration-sunshine prose-a:decoration-2 prose-a:underline-offset-4 prose-blockquote:border-mauve prose-blockquote:text-ink/80",
+    className,
+  ]}
+>
+  <PortableText value={value} components={components} />
+</div>

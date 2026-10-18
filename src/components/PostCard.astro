@@ -1,0 +1,37 @@
+---
+import { formatDate, imageUrl, type PostSummary } from "../lib/sanity";
+
+interface Props {
+  post: PostSummary;
+  /** Wide, side-by-side layout for the home page's latest post. */
+  featured?: boolean;
+}
+
+const { post, featured = false } = Astro.props;
+const img = imageUrl(post.mainImage, 800, 500);
+---
+
+<article class="group overflow-hidden rounded-xl border border-mauve/15 bg-white transition hover:shadow-md">
+  <a href={`/blog/${post.slug}`} class:list={["flex h-full flex-col", featured && "md:flex-row"]}>
+    <div class:list={["shrink-0", featured && "md:w-1/2"]}>
+      {
+        img ? (
+          <img src={img} alt={post.mainImage?.alt ?? ""} loading="lazy" width="800" height="500" class="aspect-[8/5] h-full w-full object-cover" />
+        ) : (
+          <div class="aspect-[8/5] h-full w-full bg-gradient-to-br from-mauve-light via-white to-sunshine-light" aria-hidden="true" />
+        )
+      }
+    </div>
+    <div class:list={["flex flex-1 flex-col p-6", featured && "md:justify-center md:p-10"]}>
+      <p class="text-sm text-ink/60">
+        <time datetime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
+        {post.categories?.length ? <span> · {post.categories.join(", ")}</span> : null}
+      </p>
+      <h3 class:list={["mt-2 font-semibold text-ink group-hover:text-mauve", featured ? "text-3xl" : "text-2xl"]}>
+        {post.title}
+      </h3>
+      {post.excerpt && <p class:list={["mt-3 text-ink/75", !featured && "flex-1"]}>{post.excerpt}</p>}
+      <span class="mt-4 font-medium text-mauve">Read more →</span>
+    </div>
+  </a>
+</article>

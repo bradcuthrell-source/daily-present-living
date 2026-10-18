@@ -1,0 +1,15 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { site } from "../data/site";
+---
+
+<Layout title={`Page Not Found | ${site.name}`} description="That page couldn't be found." noindex>
+  <section class="mx-auto max-w-2xl px-4 py-24 text-center">
+    <h1 class="text-4xl font-semibold">This page wandered off</h1>
+    <p class="mt-4 text-lg text-ink/75">The page you're looking for isn't here, but there's plenty more to read.</p>
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
+      <a href="/" class="rounded-md bg-mauve px-6 py-3 font-semibold text-white hover:bg-mauve-dark">Home</a>
+      <a href="/blog" class="rounded-md border border-ink/20 px-6 py-3 font-semibold hover:border-mauve hover:text-mauve">Read the Blog</a>
+    </div>
+  </section>
+</Layout>
