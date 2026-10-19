@@ -10,8 +10,8 @@ export const site = {
   domain: "dailypresentliving.com",
   url: "https://dailypresentliving.com",
 
-  // TODO: author's name as she'd like it shown on the site
-  authorName: "TODO Author Name",
+  // No author name here on purpose: she's anonymous for now. If she decides to
+  // share it, she adds it in the Studio (About Me) and the My Story page shows it.
 } as const;
 
 export const navLinks = [

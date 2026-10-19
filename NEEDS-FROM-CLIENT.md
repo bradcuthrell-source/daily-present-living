@@ -3,10 +3,10 @@
 Nothing here blocks continued build work, but it blocks launch.
 
 ## From the author
-- [ ] Her name as she'd like it shown on the site (currently `TODO Author Name` in `src/data/site.ts`)
+- [x] Her name — she's staying **anonymous** for now. No name or photo on the site; she can add either later in the Studio (About Me) and the page picks it up.
 - [ ] Email address for the Sanity login invite
 - [ ] Email address where contact-form messages should go
-- [ ] A photo of her for the My Story page
+- [ ] (Optional) a non-identifying photo for My Story — or none; the page works without one
 - [ ] Her story (she can write it straight into the Studio once it's set up)
 - [ ] A short welcome paragraph for the home page, in her own words
 - [ ] Starting categories she'd like (e.g. Faith, Family, Gratitude)

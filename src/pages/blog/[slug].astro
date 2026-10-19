@@ -32,7 +32,8 @@ const jsonLd = {
   headline: post.title,
   datePublished: post.publishedAt,
   description,
-  author: { "@type": "Person", name: site.authorName },
+  // The author is anonymous, so posts are credited to the site itself.
+  author: { "@type": "Organization", name: site.name, url: site.url },
   ...(ogImage ? { image: ogImage } : {}),
   mainEntityOfPage: new URL(`/blog/${post.slug}`, site.url).toString(),
 };

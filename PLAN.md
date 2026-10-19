@@ -1,8 +1,8 @@
 > **Status:** Astro + Tailwind site scaffolded (home, blog list, post page, My Story, contact,
 > thank-you, 404, RSS, sitemap). Sanity Studio schema built in `studio/`. Palette and tagline pulled
 > from the logo; logo in header, Faith Emblem in home hero, DPL monogram favicon, logo-based social share image.
-> Sanity project `lm4byk8d` connected; test post verified locally. Not yet: GitHub
-> repo, Netlify, domain.
+> Sanity project `lm4byk8d` connected; test post verified locally. GitHub repo + Netlify preview set up.
+> Author is anonymous. Copy review tags (`?review`). Not yet: publish→rebuild hook, hosted Studio, domain.
 
 # Daily Present Living — Site Plan
 
@@ -27,6 +27,7 @@ well for long posts).
 - **Contact form:** Netlify Forms with a honeypot; email notification set up in the Netlify dashboard
   (no Zapier needed for a low-volume blog). Topic dropdown includes "Prayer request".
 - **"My Story"** is a single Sanity document (About Me), so she can edit it herself.
+- **Anonymous author.** No name or photo anywhere on the site (name/photo optional in the Studio; posts credited to "Daily Present Living" in JSON-LD). If she later wants to be named, she fills in About Me — no code change needed.
 
 ## Site structure
 

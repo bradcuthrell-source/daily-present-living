@@ -5,37 +5,47 @@ import { site } from "../data/site";
 import { getAuthor, imageUrl } from "../lib/sanity";
 
 // "My Story" is edited in the Studio (the "About Me" document), not in code.
+// The author is anonymous for now: name and photo are optional there, and the
+// page only shows them if they've been filled in.
 const author = await getAuthor();
+const name = author?.name?.trim();
 const photo = imageUrl(author?.image, 800, 1000);
-const name = author?.name ?? site.authorName;
 ---
 
-<Layout title={`My Story | ${site.name}`} description={`Meet ${name}, the writer behind ${site.name}, and read her story.`}>
+<Layout
+  title={`My Story | ${site.name}`}
+  description="The story behind Daily Present Living — from brokenness and hiding to freedom, healing, and new life in Christ."
+>
   <section class="bg-mauve-light">
-    <div class="mx-auto max-w-5xl px-4 py-14">
+    <div class:list={["mx-auto px-4 py-14", photo ? "max-w-5xl" : "max-w-3xl"]}>
       <div data-copy="S1">
-      <p class="font-medium uppercase tracking-widest text-mauve-dark">My Story</p>
-      <h1 class="mt-2 text-4xl font-semibold sm:text-5xl">Hi, I'm {name}</h1>
+        <p class="font-medium uppercase tracking-widest text-mauve-dark">My Story</p>
+        <h1 class="mt-2 text-4xl font-semibold sm:text-5xl">
+          {name ? `Hi, I'm ${name}` : "How Daily Present Living Began"}
+        </h1>
       </div>
     </div>
   </section>
 
-  <section class="mx-auto grid max-w-5xl gap-10 px-4 pt-12 md:grid-cols-[1fr_2fr]">
-    <div data-copy="S2">
-      {
-        photo ? (
-          <img src={photo} alt={author?.image?.alt ?? name} width="800" height="1000" class="w-full rounded-xl" />
-        ) : (
-          <div class="aspect-[4/5] w-full rounded-xl bg-gradient-to-br from-mauve-light via-white to-sunshine-light" aria-hidden="true" />
-        )
-      }
-    </div>
+  <section
+    class:list={[
+      "mx-auto px-4 pt-12",
+      photo ? "grid max-w-5xl gap-10 md:grid-cols-[1fr_2fr]" : "max-w-3xl",
+    ]}
+  >
+    {
+      photo && (
+        <div data-copy="S2">
+          <img src={photo} alt={author?.image?.alt ?? ""} width="800" height="1000" class="w-full rounded-xl" />
+        </div>
+      )
+    }
     <div data-copy="S3">
       {
         author?.bio?.length ? (
           <RichText value={author.bio} />
         ) : (
-          <p class="text-lg text-ink/70">Her story is coming soon.</p>
+          <p class="text-lg text-ink/70">The story is coming soon.</p>
         )
       }
     </div>
